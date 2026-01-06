@@ -42,5 +42,6 @@ public enum HttpTask: Sendable {
     ///   - queryParameters: A dictionary of `[String: Any]` representing the query parameters.
     ///     Values can include strings, numbers, booleans, and other JSON-compatible types.
     case encodableBodyAndQuery(body: Encodable & Sendable, queryParameters: [String: any Sendable])
-
+    
+    case uploadFile(file: URL, progressHandler: @Sendable (VideoUploadProgress) -> Void)
 }

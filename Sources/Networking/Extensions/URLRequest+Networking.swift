@@ -18,7 +18,7 @@ public extension URLRequest {
         }
         
         switch endpoint.task {
-        case .none:
+        case .uploadFile, .none:
             break
                 
         case let .rawBody(dictionary):
