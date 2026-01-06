@@ -95,7 +95,17 @@ extension NetworkingController {
             
             interceptor?.intercept(&urlRequest)
             
-            var (data, response) = try await urlSession.data(for: urlRequest)
+            var (data, response): (Data, URLResponse)
+            
+            if case let .uploadFile(fileUrl, progressHnadle) = endpoint.task {
+                let delegate = UploadDelegate(progressHandler: progressHnadle)
+                let session = URLSession(configuration: .default, delegate: delegate, delegateQueue: nil)
+                                
+                (data, response) = try await session.upload(for: urlRequest, fromFile: fileUrl)
+                
+            } else {
+                (data, response) = try await urlSession.data(for: urlRequest)
+            }
             
             logRequest(endpoint, urlRequest, response, data, attempt)
 
