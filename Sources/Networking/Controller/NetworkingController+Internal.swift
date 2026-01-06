@@ -5,8 +5,6 @@ extension NetworkingController {
         do {
             var urlRequest = try URLRequest(endpoint)
             
-            interceptor?.intercept(&urlRequest)
-            
             var (data, response): (Data, URLResponse)
             
             if case let .uploadFile(fileUrl, progressHnadle) = endpoint.task {
@@ -16,6 +14,8 @@ extension NetworkingController {
                 (data, response) = try await session.upload(for: urlRequest, fromFile: fileUrl)
                 
             } else {
+                interceptor?.intercept(&urlRequest)
+                
                 (data, response) = try await urlSession.data(for: urlRequest)
             }
             
@@ -93,8 +93,6 @@ extension NetworkingController {
         do {
             var urlRequest = try URLRequest(endpoint)
             
-            interceptor?.intercept(&urlRequest)
-            
             var (data, response): (Data, URLResponse)
             
             if case let .uploadFile(fileUrl, progressHnadle) = endpoint.task {
@@ -104,6 +102,8 @@ extension NetworkingController {
                 (data, response) = try await session.upload(for: urlRequest, fromFile: fileUrl)
                 
             } else {
+                interceptor?.intercept(&urlRequest)
+                
                 (data, response) = try await urlSession.data(for: urlRequest)
             }
             
